@@ -26,6 +26,7 @@ import fabric_generator.file_parser as fileParser
 from fabric_generator.fabric import Fabric, Tile
 from fabric_generator.fabric_gen import FabricGenerator
 from geometry_generator.geometry_gen import GeometryGenerator
+import fabric_generator.automatic_opt_fabric_gen.optimize_fabric_generator as genGDS
 import csv
 from glob import glob
 import os
@@ -1170,6 +1171,10 @@ To run the complete FABulous flow with the default project, run the following co
 
     def complete_tcl(self, text, *ignored):
         return self._complete_path(text)
+        
+    def do_gen_gds(self, args):
+        gdsFAB = genGDS.optimizeGenerator(self, args, self.fabricGen, self.allTile, self.csvFile, self.projectDir)
+        gdsFAB.run()
 
 
 if __name__ == "__main__":

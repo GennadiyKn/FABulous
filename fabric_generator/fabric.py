@@ -337,6 +337,15 @@ class Tile():
 
     def getTileOutputNames(self) -> List[str]:
         return [p.sourceName for p in self.portsInfo if p.sourceName != "NULL" and p.wireDirection != Direction.JUMP and p.inOut == IO.OUTPUT]
+    
+    def getExternalTileIONames(self) -> List[str]:
+        return [p for p in self.bels if p.name != "NULL"]
+
+    def getPortPairs(self) -> List[str]:
+        return [[p.sourceName, p.destinationName, p.wireCount, p.name] for p in self.portsInfo if p.wireDirection != Direction.JUMP]
+
+    def getUserCLK(self):
+        return self.withUserCLK
 
 
 @ dataclass
@@ -405,6 +414,9 @@ class SuperTile():
                     internalConnections.append(
                         (tile.getWestSidePorts(), x, y))
         return internalConnections
+    
+    def getUserCLK(self):
+        return self.withUserCLK
 
 
 @ dataclass
