@@ -790,7 +790,6 @@ class optimizeGenerator():
     def run(self):
         pinDistanceInitialTile = {}
         pinOrderChangeInitialTile = {}
-        """
 
         # Generating Openlane Tile designs folder structure
         logger.info("Generating OpenLane Tile designs folder structure")
@@ -1120,7 +1119,7 @@ class optimizeGenerator():
         with open(f"{self.openlaneDir}/scripts/openroad/ioplacer.tcl", "w") as f:
             f.writelines(data)
             f.close()
-        """
+        
         # ------------------------------------------------------------------------------------------------------------------------------
         # fabric hardening
         # ------------------------------------------------------------------------------------------------------------------------------
@@ -1200,13 +1199,13 @@ class optimizeGenerator():
         heightPos = fabricTileHeightTotal + self.marginFab + self.marginFabCore + (rowNum -1) * self.marginTiles
         for y, column in enumerate(self.fabricTileMap):
             widthPos = self.marginFabCore + self.marginFab
-            #heightPos -= tileHeights[y]
+            heightPos -= tileHeights[y]
             for x, tile in enumerate(column):
                 if tile != "NULL":
                     configTilePlacement += f"eFPGA_inst.Tile_X{x}Y{y}_{tile} {widthPos} {heightPos} N \n"
                     macroHooks += f"\"eFPGA_inst.Tile_X{x}Y{y}_{tile} vccd1 vssd1 vccd1 vssd1,\","
                 widthPos += (tileWidths[x] + self.marginTiles)
-            heightPos -= (self.marginTiles + tileHeights[y])
+            heightPos -= self.marginTiles
 
         # RAM placement
         if self.ramGenerate:
